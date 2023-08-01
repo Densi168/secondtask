@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    function name1()
+    {
+        var x=document.getElementById("n1").value
+        var p1=/^[A-Za-z_.\s]+$/
+        if(x.match(p1))
+        {
+            errname.innerHTML=""
+            return true;
+        }
+        else
+        {
+            errname.innerHTML="**enter a valid name"
+            errname.style.color="red"
+            return false
+        }
+
+
+    }
+    
+    function email1()
+    {
+        var z=document.getElementById("e1").value
+        var p2=/^[A-Za-z0-9_.]{2,}[@][A-Za-z]{2,}[.][A-Za-z.]{2,}$/
+        if(z.match(p2))
+        {
+            erremai.innerHTML=""
+            return true
+        }
+        else
+        {
+            erremai.innerHTML="**enter a valid email"
+            erremai.style.color="red"
+            return false;
+        }
+
+    }
+    
+    
+    function phone1()
+    {
+        var ph=document.getElementById("phone1").value
+        var p4=/^[5-9]\d{9}$/
+        if(ph.match(p4))
+        {
+            errphno.innerHTML=""
+            return true;
+        }
+        else
+        {
+            errphno.innerHTML="**entrr a valid"
+            errphno.style.color="red"
+
+            return false
+        }
+      
+    }
+    
+   
+   
+   function gen1()
+   {
+     var gg=document.getElementsByName("gender")
+     if(gg[0].checked==false && gg[1].checked==false)
+     {
+        errgen.innerHTML="**select one gendrer"
+        errgen.style.color="red"
+        return false
+        
+     }
+     else
+     {
+        errgen.innerHTML=""
+        return true
+     }
+   }
+   
+   
+       
+        function display()
+        {
+            gen1();
+            if(name1()==true || email1()==true ||  gen1()==true || phone1()==true)
+            {
+                show.innerHTML="valid"
+                show.style.color="green"
+                checkkk()
+                return true
+            }
+            else
+            {
+                show.innerHTML="not valid"
+                show.style.color="red"
+                return false
+            }
+        }
+        mylist=[]
+
+        function checkkk()
+        {
+            var nn=document.getElementById("n1")
+           var ph=document.getElementById("phone1")
+           var em=document.getElementById("e1")
+           if(document.getElementById("m1").checked==true)
+           {
+            gen="male";
+           }
+           else
+           {
+            gen="female";
+           }
+            myobj={
+                name:nn.value,
+               phone:ph.value,
+               email:em.value,
+               gender:gen
+
+
+            }
+            mylist.push(myobj)
+
+            var array1=JSON.stringify(mylist)
+            localStorage.setItem('data',array1)
+
+            var array2=localStorage.getItem('data')
+            var language=JSON.parse(array2)
+
+            str="<table><tr><td>NAME</td><td>Phone no</td><td>Email</td><td>Gender</td></tr>"
+                for(i=0;i<language.length;i++)
+                {
+                    str+="<tr>"
+                        str+="<td>"+language[i].name+"</td><td>"+language[i].phone+"</td><td>"+language[i].email+"</td><td>"+language[i].gender+"</td>"
+                        str+="</tr>"
+                }
+                str+="</table>"
+
+
+                document.getElementById("disp").innerHTML=str
+        }
+
+       
+        function remove(index)
+        {
+            mylist.splice(index,1)
+            var array1=JSON.stringify(mylist)
+            localStorage.setItem('data',array1)
+
+            var array2=localStorage.getItem('data')
+            var language=JSON.parse(array2)
+
+            str="<table><tr><td>NAME</td><td>Phone no</td><td>Email</td><td>Gender</td></tr>"
+                for(i=0;i<language.length;i++)
+                {
+                    str+="<tr>"
+                        str+="<td>"+language[i].name+"</td><td>"+language[i].phone+"</td><td>"+language[i].email+"</td><td>"+language[i].gender+"</td><td><button onclick='remove("+i+")'>DELETE"+"</button>"+"</td>"
+                        str+="</tr>"
+                }
+                str+="</table>"
+
+
+                document.getElementById("disp").innerHTML=str
+
+            }
+        
+            
+        
+        
+   
+</script>
+<body>
+    <fieldset>
+        <legend>USER Information</legend>
+    enter a name:
+    <input type="text" id="n1" oninput="return name1()">
+    <span id="errname"></span>
+    <br><br>
+    
+   
+    enter a phono no:
+    <input type="text" id="phone1" oninput="return phone1()">
+    <span id="errphno"></span>
+    <br><br>
+    enter a email:
+    <input type="text" id="e1" oninput="return email1()">
+    <span id="erremai"></span>
+    <br><br>
+    
+    
+    enter a gender:
+    <input type="radio" name="gender" id="m1" value="male">Male
+    <input type="radio" name="gender" id="f1" value="female">Female
+    <span id="errgen"></span>
+    <br><br>
+    
+    
+    <div id="show"></div>
+    <button onclick="return display()">SUBMIT</button>
+    <button onclick="return remove()">REMOVE</button>
+</fieldset>
+<div id="disp"></div>
+</body>
+<script>
+    var array2=localStorage.getItem('data')
+            var language=JSON.parse(array2)
+
+            str="<table><tr><td>NAME</td><td>Phone no</td><td>Email</td><td>Gender</td></tr>"
+                for(i=0;i<language.length;i++)
+                {
+                    str+="<tr>"
+                        str+="<td>"+language[i].name+"</td><td>"+language[i].phone+"</td><td>"+language[i].email+"</td><td>"+language[i].gender+"</td>"
+                        str+="</tr>"
+                }
+                str+="</table>"
+
+
+                document.getElementById("disp").innerHTML=str
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
